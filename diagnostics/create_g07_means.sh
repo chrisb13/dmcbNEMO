@@ -37,8 +37,8 @@
 #python mk_g07_means.py grid-U 2030 2030 &
 wait
 
-YEARi=2032
-YEARf=2036
+YEARi=2027
+YEARf=2030
 
 
 source /nerc/n02/n02/chbull/.vim/common_bashfunctions

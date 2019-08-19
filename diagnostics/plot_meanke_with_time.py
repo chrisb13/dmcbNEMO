@@ -21,9 +21,13 @@ homedir = '/nerc/n02/shared/chbull/'
 nemodir = 'NEMO_JRAspinup4DAVECHK/'
 
 # Specify the names of the different files that I want to load from.
-tdir = 'u-bl504/onm.nc.file/'
-udir = 'u-bl504/onm.nc.file/'
-vdir = 'u-bl504/onm.nc.file/'
+# tdir = 'u-bl504/onm.nc.file/'
+# udir = 'u-bl504/onm.nc.file/'
+# vdir = 'u-bl504/onm.nc.file/'
+tdir = 'u-bc337-bl504_links/'
+udir = 'u-bc337-bl504_links/'
+vdir = 'u-bc337-bl504_links/'
+
 gridfile = 'mesh_mask_eORCA025-GO7.nc'
 
 # Specify the number of grid boxes.
@@ -52,9 +56,12 @@ area = np.ma.masked_array(e1t * e2t, mask=1.0-tmask[:, :, 0:1])
 
 # Find the number of files in the directory that we want to calculate KE for.
 if save_output:
-    tfiles = sorted(glob.glob(''.join([homedir, nemodir, tdir, 'nemo_bl504o_1m_20??????-20??????_grid-T.nc'])))
-    ufiles = sorted(glob.glob(''.join([homedir, nemodir, tdir, 'nemo_bl504o_1m_20??????-20??????_grid-U.nc'])))
-    vfiles = sorted(glob.glob(''.join([homedir, nemodir, tdir, 'nemo_bl504o_1m_20??????-20??????_grid-V.nc'])))
+    # tfiles = sorted(glob.glob(''.join([homedir, nemodir, tdir, 'nemo_bl504o_1m_20??????-20??????_grid-T.nc'])))
+    # ufiles = sorted(glob.glob(''.join([homedir, nemodir, tdir, 'nemo_bl504o_1m_20??????-20??????_grid-U.nc'])))
+    # vfiles = sorted(glob.glob(''.join([homedir, nemodir, tdir, 'nemo_bl504o_1m_20??????-20??????_grid-V.nc'])))
+    tfiles = sorted(glob.glob(''.join([homedir, nemodir, tdir, '*_grid-T.nc'])))
+    ufiles = sorted(glob.glob(''.join([homedir, nemodir, tdir, '*_grid-U.nc'])))
+    vfiles = sorted(glob.glob(''.join([homedir, nemodir, tdir, '*_grid-V.nc'])))
 
 # --------------------------------------------------------------------------- #
 # If we're not loading the data, then loop over all the available files and
