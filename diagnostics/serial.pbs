@@ -1,0 +1,21 @@
+#!/bin/bash --login
+
+#PBS -N python
+#PBS -l ncpus=1
+#PBS -l walltime=96:00:00
+#PBS -A n01-ORCHESTRA
+
+#! for python 2.?
+#! module load anaconda
+
+#! for python 3.?
+module load anaconda/2.2.0-python3
+
+cd $PBS_O_WORKDIR
+source ~/.alias
+
+#! python jra55_fourier_filter.py
+
+python plot_meansalty_with_time.py
+python plot_meantheta_with_time.py
+python plot_meanke_with_time.py
