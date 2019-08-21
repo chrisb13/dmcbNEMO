@@ -12,6 +12,10 @@ import matplotlib
 matplotlib.rcParams['backend'] = 'Agg'
 import matplotlib.pyplot as plt
 
+import os
+import xarray as xr
+
+
 plt.ioff()
 
 # --------------------------------------------------------------------------- #
@@ -36,7 +40,7 @@ ny = 1207
 nz = 75
 
 # Choose whether to save/load KE values.
-save_output = 1
+save_output = 0
 
 # --------------------------------------------------------------------------- #
 
@@ -108,32 +112,41 @@ plt.figure(figsize=(12, 12))
 
 plt.rc('axes', linewidth=3)
 
-p = plt.plot(np.linspace(2.5, 5.0*len(meanke)-2.5, len(meanke))/365.0,
-             meanke[:, 1], '-b',
-             np.linspace(2.5, 5.0*len(meanke)-2.5, len(meanke))/365.0,
-             meanke[:, 17], '-g',
-             np.linspace(2.5, 5.0*len(meanke)-2.5, len(meanke))/365.0,
-             meanke[:, 30], '-r',
-             np.linspace(2.5, 5.0*len(meanke)-2.5, len(meanke))/365.0,
-             meanke[:, 50], '-m',
-             linewidth=1)
-ax = plt.gca()
+#was good for 5-day output (DM's beast I think has 5-day output?)
+idx=np.linspace(2.5, 5.0*len(meanke)-2.5, len(meanke))/365.0
+
+#for monthly output..
+idx=np.linspace(15.0, 30.0*len(meanke)-15.0, len(meanke))/365.0
+
+ifile=xr.open_dataset(sorted(glob.glob(''.join([homedir, nemodir, tdir, '*_grid-U.nc'])))[0])
+depths=ifile['depthu'].values.tolist()
+ifile.close()
+
+plt.close('all')
+fig=plt.figure(figsize=(12, 12))
+ax=fig.add_subplot(1, 1,1)
+
+ax.plot(idx,meanke[:, 1], '-b',label= str(np.round(depths[1],1))+'m',linewidth=1)
+ax.plot(idx,meanke[:, 17], '-g',label=str(np.round(depths[17],1))+'m',linewidth=1)
+ax.plot(idx,meanke[:, 30], '-r',label=str(np.round(depths[30],1))+'m',linewidth=1)
+ax.plot(idx,meanke[:, 50], '-m',label=str(np.round(depths[50],1))+'m',linewidth=1)
+# ax = plt.gca()
 ax.set_aspect(40.0/0.025)
 
-plt.axis([0, 40.0, 0, 0.025])
+ax.set_xlim([0, 65.0])
+ax.set_ylim([0, 0.025])
+ax.legend()
 
-plt.xticks(np.arange(0, 41.0, 5.))
-ax.set_xticks(np.arange(0, 41.0, 1.), minor=True)
+plt.xticks(np.arange(0, 66.0, 5.))
+ax.set_xticks(np.arange(0, 66.0, 1.), minor=True)
 
 plt.yticks(np.linspace(0., 0.0250, 5))
 
 ax.tick_params(which='major', length=10, width=2, direction='in')
 ax.tick_params(which='minor', length=5, width=2, direction='in')
 
-plt.xlabel('Years', fontname='arial', fontsize=30, fontweight='bold')
-plt.ylabel('Ave. surface KE ($\mathrm{m^2s^{-1}}$)',
-           fontname='arial', fontsize=30, fontweight='bold')
-
+ax.set_xlabel('Years', fontname='arial', fontsize=30, fontweight='bold')
+ax.set_ylabel('Ave. surface KE ($\mathrm{m^2s^{-1}}$)',fontname='arial', fontsize=30, fontweight='bold')
 for tick in ax.xaxis.get_major_ticks():
     tick.label1.set_fontsize(18)
     tick.label1.set_fontname('arial')
@@ -143,9 +156,12 @@ for tick in ax.yaxis.get_major_ticks():
     tick.label1.set_fontname('arial')
     tick.label1.set_fontweight('bold')
 
+ax.grid(True)
 # --------------------------------------------------------------------------- #
 # Save the figure to a pdf.
-
-plt.savefig(''.join(['../figs/meankine_timeseries.pdf']), bbox_inches='tight')
+fig.savefig(''.join([homedir,nemodir,'figs/meankine_timeseries.pdf']), bbox_inches='tight')
+fig.savefig(''.join([homedir,nemodir,'figs/meankine_timeseries.png']),dpi=300,bbox_inches='tight')
+print("plot in: "+''.join([homedir,nemodir,'figs/meankine_timeseries.pdf']))
+print("plot in: "+''.join([homedir,nemodir,'figs/meankine_timeseries.png']))
 
 # --------------------------------------------------------------------------- #

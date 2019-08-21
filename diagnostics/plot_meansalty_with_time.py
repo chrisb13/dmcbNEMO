@@ -11,6 +11,7 @@ import numpy as np
 import matplotlib
 matplotlib.rcParams['backend'] = 'Agg'
 import matplotlib.pyplot as plt
+import xarray as xr
 
 plt.ioff()
 
@@ -31,7 +32,7 @@ ny = 1207
 nz = 75
 
 # Choose whether to save/load KE values.
-save_output = 1
+save_output = 0
 
 # --------------------------------------------------------------------------- #
 
@@ -85,27 +86,34 @@ if not save_output:
     meansalty = np.load(''.join([homedir, nemodir, 'post/meansalty_m01.npy']))
 
 # --------------------------------------------------------------------------- #
-
-plt.figure(figsize=(12, 12))
+ifile=xr.open_dataset(sorted(glob.glob(''.join([homedir, nemodir, tdir, '*_grid-T.nc'])))[0])
+depths=ifile['deptht'].values.tolist()
+ifile.close()
 
 plt.rc('axes', linewidth=3)
 
-p = plt.plot(np.linspace(15.0, 30.0*len(meansalty)-15.0, len(meansalty))/365.0,
-             meansalty[:, 0], '-b',
-             np.linspace(15.0, 30.0*len(meansalty)-15.0, len(meansalty))/365.0,
-             meansalty[:, 16], '-g',
-             np.linspace(15.0, 30.0*len(meansalty)-15.0, len(meansalty))/365.0,
-             meansalty[:, 29], '-r',
-             np.linspace(15.0, 30.0*len(meansalty)-15.0, len(meansalty))/365.0,
-             meansalty[:, 49], '-m',
-             linewidth=1)
-ax = plt.gca()
+plt.close('all')
+fig=plt.figure(figsize=(12, 12))
+ax=fig.add_subplot(1, 1,1)
+
+idx=np.linspace(15.0, 30.0*len(meansalty)-15.0, len(meansalty))/365.0
+
+ax.plot(idx,meansalty[:, 0], '-b',label= str(np.round(depths[0],1))+'m',linewidth=1)
+ax.plot(idx,meansalty[:, 16], '-g',label=str(np.round(depths[16],1))+'m',linewidth=1)
+ax.plot(idx,meansalty[:, 29], '-r',label=str(np.round(depths[29],1))+'m',linewidth=1)
+ax.plot(idx,meansalty[:, 49], '-m',label=str(np.round(depths[49],1))+'m',linewidth=1)
+ax.plot(idx,meansalty[:, 60], '-y',label=str(np.round(depths[60],1))+'m',linewidth=1)
+ax.plot(idx,meansalty[:, 74], '-k',label=str(np.round(depths[74],1))+'m',linewidth=1)
+
+# ax = plt.gca()
 ax.set_aspect(40.0/1.0)
 
-plt.axis([0, 40.0, 34.0, 35.0])
+ax.set_xlim([0, 65.0])
+ax.set_ylim([34.0, 35.00])
+ax.legend()
 
-plt.xticks(np.arange(0, 41.0, 5.))
-ax.set_xticks(np.arange(0, 41.0, 1.), minor=True)
+plt.xticks(np.arange(0, 66.0, 5.))
+ax.set_xticks(np.arange(0, 66.0, 1.), minor=True)
 
 plt.yticks(np.linspace(34.0, 35.0, 5))
 
@@ -125,9 +133,13 @@ for tick in ax.yaxis.get_major_ticks():
     tick.label1.set_fontname('arial')
     tick.label1.set_fontweight('bold')
 
+ax.grid(True)
 # --------------------------------------------------------------------------- #
 # Save the figure to a pdf.
 
-plt.savefig('../figs//meansalty_m01_timeseries.pdf', bbox_inches='tight')
+fig.savefig(''.join([homedir,nemodir,'figs/meansalty_m01_timeseries.pdf']), bbox_inches='tight')
+fig.savefig(''.join([homedir,nemodir,'figs/meansalty_m01_timeseries.png']),dpi=300,bbox_inches='tight')
+print("plot in: "+''.join([homedir,nemodir,'figs/meansalty_m01_timeseries.pdf']))
+print("plot in: "+''.join([homedir,nemodir,'figs/meansalty_m01_timeseries.png']))
 
 # --------------------------------------------------------------------------- #

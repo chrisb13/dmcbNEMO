@@ -1,7 +1,7 @@
 #!/bin/bash --login
 
 #PBS -N python
-#PBS -l ncpus=1
+#PBS -l ncpus=3
 #PBS -l walltime=96:00:00
 #PBS -A n02-FISSA
 
@@ -17,6 +17,7 @@ cd $PBS_O_WORKDIR
 #! python jra55_fourier_filter.py
 
 cd /nerc/n02/shared/chbull/NEMO_JRAspinup4DAVECHK/dmcbNEMO/diagnostics
-python plot_meansalty_with_time.py
-python plot_meantheta_with_time.py
-python plot_meanke_with_time.py
+python plot_meansalty_with_time.py &
+python plot_meantheta_with_time.py &
+python plot_meanke_with_time.py &
+wait
