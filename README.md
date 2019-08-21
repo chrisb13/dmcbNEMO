@@ -8,8 +8,8 @@ NEMO Global Analysis by Dave Munday and Christopher Bull.
 
 ### Orientation
 
-- 
-- 
+- ./configs - anything related to setting up the runs
+- ./diagnostics - anything related to analysing run output
 
 ### Notes
 
