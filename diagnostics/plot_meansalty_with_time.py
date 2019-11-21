@@ -112,8 +112,8 @@ ax.set_xlim([0, 65.0])
 ax.set_ylim([34.0, 35.00])
 ax.legend()
 
-plt.xticks(np.arange(0, 66.0, 5.))
-ax.set_xticks(np.arange(0, 66.0, 1.), minor=True)
+plt.xticks(np.arange(0, 96.0, 5.))
+ax.set_xticks(np.arange(0, 96.0, 1.), minor=True)
 
 plt.yticks(np.linspace(34.0, 35.0, 5))
 
