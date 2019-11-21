@@ -23,6 +23,7 @@ nemodir = 'NEMO_JRAspinup4DAVECHK/'
 
 # Specify the names of the different files that I want to load from.
 udir = 'u-bl504/onm.nc.file/'
+udir = 'u-bc337-bl504_links/'
 gridfile = 'mesh_mask_eORCA025-GO7.nc'
 
 # Specify the number of grid boxes.
@@ -45,7 +46,8 @@ umask = np.squeeze(nemo.load_field('umask',homedir, nemodir, gridfile, 'U'))[884
 
 # Find the number of files in the directory that we want to calculate KE for.
 if save_output:
-    ufiles = sorted(glob.glob(''.join([homedir, nemodir, udir, 'nemo_bl504o_1m_20??????-20??????_grid-U.nc'])))
+    # ufiles = sorted(glob.glob(''.join([homedir, nemodir, udir, 'nemo_bl504o_1m_20??????-20??????_grid-U.nc'])))
+    ufiles = sorted(glob.glob(''.join([homedir, nemodir, udir, '*_grid-U.nc'])))
 
 # --------------------------------------------------------------------------- #
 # If we're not loading the data, then loop over all the available files and
