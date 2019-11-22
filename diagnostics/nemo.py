@@ -1,7 +1,18 @@
 #!/opt/local/bin/python
 #
 # --------------------------------------------------------------------------- #
+import os
 
+def mkdir(p):
+    """make directory of path that is passed"""
+    try:
+       os.makedirs(p)
+       print("output folder: "+p+ " does not exist, we will make one.")
+    except OSError as exc: # Python >2.5
+       import errno
+       if exc.errno == errno.EEXIST and os.path.isdir(p):
+          pass
+       else: raise
 
 # --------------------------------------------------------------------------- #
 # Define a function to average a T field to a V point.

@@ -31,8 +31,11 @@ nx = 1440
 ny = 1207
 nz = 75
 
-# Choose whether to save/load KE values.
-save_output = 1
+# make output dir
+nemo.mkdir(homedir+nemodir+'figs/')
+
+# Choose whether to save/load tacc values.
+save_output = 0
 
 # --------------------------------------------------------------------------- #
 
@@ -44,14 +47,15 @@ umask = np.squeeze(nemo.load_field('umask',homedir, nemodir, gridfile, 'U'))[884
 
 # --------------------------------------------------------------------------- #
 
-# Find the number of files in the directory that we want to calculate KE for.
 if save_output:
+    # Find the number of files in the directory that we want to calculate KE for.
     # ufiles = sorted(glob.glob(''.join([homedir, nemodir, udir, 'nemo_bl504o_1m_20??????-20??????_grid-U.nc'])))
     ufiles = sorted(glob.glob(''.join([homedir, nemodir, udir, '*_grid-U.nc'])))
 
 # --------------------------------------------------------------------------- #
 # If we're not loading the data, then loop over all the available files and
 # calculatet the average KE.
+
 
 if save_output:
     # Preallocate the output variable.
@@ -76,7 +80,7 @@ if save_output:
 # --------------------------------------------------------------------------- #
 # If we're not saving the number, we're loading them.
 if not save_output:
-    meanke = np.load(''.join([homedir, nemodir, 'post/tacc.npy']))
+    tacc = np.load(''.join([homedir, nemodir, 'post/tacc.npy']))
 
 # --------------------------------------------------------------------------- #
 
@@ -90,13 +94,13 @@ p = plt.plot(np.linspace(0, 30.0*len(tacc), len(tacc)+1)/365.,
 ax = plt.gca()
 ax.set_aspect(50.0/300.0)
 
-plt.axis([0, 50.0, 0, 300.0])
+plt.axis([0, 50.0, 0, 350.0])
 
-plt.xticks(np.arange(0, 51.0, 5.))
-ax.set_xticks(np.arange(0, 41.0, 1.), minor=True)
+plt.xticks(np.arange(0, 91.0, 5.))
+ax.set_xticks(np.arange(0, 91.0, 1.), minor=True)
 
-plt.yticks(np.arange(0., 301.0, 50.))
-ax.set_yticks(np.arange(0, 301.0, 10.), minor=True)
+plt.yticks(np.arange(0., 351.0, 50.))
+ax.set_yticks(np.arange(0, 351.0, 10.), minor=True)
 
 ax.tick_params(which='major', length=10, width=2, direction='in')
 ax.tick_params(which='minor', length=5, width=2, direction='in')
@@ -117,6 +121,11 @@ for tick in ax.yaxis.get_major_ticks():
 # --------------------------------------------------------------------------- #
 # Save the figure to a pdf.
 
-plt.savefig(''.join(['../figs/tacc_timeseries.pdf']), bbox_inches='tight')
+# plt.savefig(''.join(['../figs/tacc_timeseries.pdf']), bbox_inches='tight')
+
+plt.savefig(''.join([homedir,nemodir,'figs/tacc_timeseries.pdf']), bbox_inches='tight')
+plt.savefig(''.join([homedir,nemodir,'figs/tacc_timeseries.png']),dpi=300,bbox_inches='tight')
+print("plot in: "+''.join([homedir,nemodir,'figs/tacc_timeseries.pdf']))
+print("plot in: "+''.join([homedir,nemodir,'figs/tacc_timeseries.png']))
 
 # --------------------------------------------------------------------------- #
