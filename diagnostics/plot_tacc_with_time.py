@@ -34,13 +34,13 @@ gridfile = 'mesh_mask_eORCA025-GO7.nc'
 #  CORE  #
 ##########
 
-# Specify where the input data lives for CORE.
-homedir = '/nerc/n02/n02/chbull/RawData/'
-nemodir = 'mi-an854/'
+# # Specify where the input data lives for CORE.
+# homedir = '/nerc/n02/n02/chbull/RawData/'
+# nemodir = 'mi-an854/'
 
-# Specify the names of the different files that I want to load from.
-udir = 'onm.nc.file/'
-gridfile = 'mesh_mask_eORCA025-GO7.nc'
+# # Specify the names of the different files that I want to load from.
+# udir = 'onm.nc.file/'
+# gridfile = 'mesh_mask_eORCA025-GO7.nc'
 
 # Specify the number of grid boxes.
 nx = 1440
@@ -67,10 +67,10 @@ umask = np.squeeze(nemo.load_field('umask',homedir, nemodir, gridfile, 'U'))[885
 if save_output:
     # Find the number of files in the directory that we want to calculate KE for.
     # ufiles = sorted(glob.glob(''.join([homedir, nemodir, udir, 'nemo_bl504o_1m_20??????-20??????_grid-U.nc'])))
-    # ufiles = sorted(glob.glob(''.join([homedir, nemodir, udir, '*_grid-U.nc'])))
+    ufiles = sorted(glob.glob(''.join([homedir, nemodir, udir, '*_grid-U.nc'])))
 
     #for CORE
-    ufiles = sorted(glob.glob(''.join([homedir, nemodir, udir, '*_????????_grid_U.nc'])))
+    # ufiles = sorted(glob.glob(''.join([homedir, nemodir, udir, '*_????????_grid_U.nc'])))
 
 
 # --------------------------------------------------------------------------- #
