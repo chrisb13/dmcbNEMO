@@ -28,6 +28,7 @@ Notes:
     -Submit when logged into the DAC
     -bandcut cuts off everything *inbetween* low,high
     -cut offs should be natural numbers, no floats
+    -if mkpbs is specified, VARIABLE_NUM is ignored
 
 Here's a way to check that the runs worked (or got to the last tile):
     cd /nerc/n02/n02/chbull/RawData/JRA55-do_v1-3_400low
