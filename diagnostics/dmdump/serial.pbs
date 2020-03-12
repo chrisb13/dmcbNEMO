@@ -1,0 +1,57 @@
+#!/bin/bash --login
+
+#PBS -N python
+#PBS -l ncpus=1
+#PBS -l walltime=96:00:00
+#PBS -A n01-ORCHESTRA
+
+cd $PBS_O_WORKDIR
+source ~/.alias
+
+#! for python 2.?
+#! module load anaconda
+
+#! for python 3.?
+#! module load anaconda/2.2.0-python3
+
+#! for own python 3.7.4 environment
+export PYTHONPATH=~/python:~/python/nemo:~/python/mitgcm:~/python/aviso:~/python/glosst:~/python/ecco:~/python/mxl:~/python/core:~/anaconda3/pkgs;
+export PATH=~/anaconda3/bin:$PATH;
+source activate root
+
+#! python plot_ssp.py
+
+#! python jra55_fourier_filter.py
+
+#! python scale_JRA55_wind.py
+
+#! python make_geoke_annual.py
+
+#! python output_xi_nc.py
+
+#! python anim_nemo_age.py
+#! python anim_nemo_ke.py
+#! python anim_nemo_mxl.py
+#! python anim_nemo_siconc.py
+#! python anim_nemo_sithick.py
+#! python anim_nemo_sithic_siconc.py
+#! python anim_nemo_xi.py
+
+#! python plot_ssh_with_time.py
+#! python plot_ke_with_time.py
+#! python plot_geoke_with_time.py
+#! python plot_sst_with_time.py
+#! python plot_sss_with_time.py
+#! python plot_icearea_with_time.py
+#! python plot_icethick_with_time.py
+#! python plot_icevol_with_time.py
+#! python plot_mxl_with_time.py
+#! python plot_tacc_with_time.py
+#! python plot_vvl_with_time.py
+python plot_ssp_with_time.py
+#! python plot_windinput_with_time.py
+
+#! python plot_meantheta_with_time.py
+#! python plot_meansalty_with_time.py
+#! python plot_meanke_with_time.py
+#! python plot_meanage_with_time.py
